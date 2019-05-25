@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +13,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.carlosaltamirano.facturacion.core.exception.FacturacionWebException;
+import io.carlosaltamirano.facturacion.core.exception.RucEmpresaExisteException;
 import io.carlosaltamirano.facturacion.core.model.Empresa;
 import io.carlosaltamirano.facturacion.core.service.EmpresaService;
+import io.carlosaltamirano.facturacion.test.categoria.PruebaIntegracion;
 
-@RunWith(SpringRunner.class)
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+@RunWith(SpringRunner.class) //contexto
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//TODO: Completar
+
+@Category(PruebaIntegracion.class)
 public class EmpresaServiceTest {
 
-	@Autowired
+	@Autowired //invoco y creo service
 	EmpresaService empresaService;
 	
 	private Empresa empresa;
@@ -50,11 +57,12 @@ public class EmpresaServiceTest {
 			
 			empresa = empresaService.crear(empresa);
 			
-			//TODO: Completar código aquí
+			Assert.assertNotNull(empresa.getId());
+			Assert.assertTrue(empresa.getId() > 0);
 			
 		} catch (FacturacionWebException e) {
 			e.printStackTrace();
-			Assert.fail();
+			
 		}
 		
 	}
@@ -62,8 +70,20 @@ public class EmpresaServiceTest {
 	@Test
 	public void b_creacionEmpresaCuandoRucExiste() {
 		
-		//TODO: Completar código aquí
+		try {
 			
+			empresa = empresaService.crear(empresa);
+			Assert.assertNotNull(empresa.getId());
+			Assert.assertTrue(empresa.getId() > 0);
+			
+		} catch (RucEmpresaExisteException e) {
+			assertThat(e.getMessage(), is(RucEmpresaExisteException.MENSAJE_DEFAULT));
+		} catch (FacturacionWebException e) {
+			Assert.fail();
+		}
+			
+		
+		
 		
 	}
 	

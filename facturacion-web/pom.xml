@@ -20,6 +20,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		
+		<skipTests>false</skipTests>
+		<skipITs>${skipTests}</skipITs>
+		<skipUTs>${skipTests}</skipUTs>
+			
 	</properties>
 	
 	<dependencies>
@@ -91,9 +96,21 @@
 				<configuration>
 				
 					<groups>io.carlosaltamirano.facturacion.test.categoria.PruebaUnitaria</groups>
-				
+				    <skipTests>${skipUTs}</skipTests>
 				</configuration>
 			</plugin>
+			
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-failsafe-plugin</artifactId>
+		<configuration>
+			<groups>io.carlosaltamirano.facturacion.test.categoria.PruebaIntegracion</groups>
+			<skipTests>${skipTests}</skipTests>
+						<includes>
+				<include>**/*.java</include>
+			</includes>
+		</configuration>
+	</plugin>
 			
 		</plugins>
 		
