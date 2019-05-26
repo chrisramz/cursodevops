@@ -24,6 +24,21 @@
 		<skipTests>false</skipTests>
 		<skipITs>${skipTests}</skipITs>
 		<skipUTs>${skipTests}</skipUTs>
+		
+		<sonar.jacoco.ut.exclusions>
+			io/carlosaltamirano/facturacion/core/service/**/*, io/carlosaltamirano/facturacion/core/exception/**/*, io/carlosaltamirano/facturacion/*
+		</sonar.jacoco.ut.exclusions>
+		
+		<sonar.jacoco.it.exclusions>
+			io/carlosaltamirano/facturacion/core/model/**/*, io/carlosaltamirano/facturacion/core/exception/**/*, io/carlosaltamirano/facturacion/*
+		</sonar.jacoco.it.exclusions>
+		
+		<sonar.coverage.exclusions>
+		**/io/carlosaltamirano/facturacion/core/service/**/*, */io/carlosaltamirano/facturacion/*
+		
+		</sonar.coverage.exclusions>
+		
+			
 			
 	</properties>
 	
@@ -111,6 +126,68 @@
 			</includes>
 		</configuration>
 	</plugin>
+	
+		<plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.4</version>
+			<executions>
+				<execution>
+					<id>prepare-ut-agent</id>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+					<configuration>
+					<excludes>
+					${sonar.jacoco.ut.exclusions}
+					</excludes>
+					</configuration>
+				</execution>
+				<execution>
+					<id>ut-report</id>
+					<phase>test</phase>
+					<goals>
+						<goal>report</goal>
+					</goals>
+					<configuration>
+					<excludes>
+					${sonar.jacoco.ut.exclusions}
+					</excludes>
+					</configuration>
+					
+					
+					
+				</execution>
+				
+				<execution>
+					<id>prepare-it-agent</id>
+					<goals>
+						<goal>prepare-agent-integration</goal>
+					</goals>
+				
+					<configuration>
+					<excludes>
+					${sonar.jacoco.it.exclusions}
+					</excludes>
+					</configuration>
+				
+				</execution>
+				<execution>
+					<id>it-report</id>
+					<phase>verify</phase>
+					<goals>
+						<goal>report-integration</goal>
+					</goals>
+					
+					<configuration>
+					<excludes>
+					${sonar.jacoco.it.exclusions}
+					</excludes>
+					</configuration>
+					
+				</execution>
+			</executions>
+		</plugin>
 			
 		</plugins>
 		

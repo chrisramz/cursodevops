@@ -33,6 +33,11 @@ public class EmpresaTest {
 	@Test
 	public void creacionEmpresaConRucyRazonSocial() {
 		Empresa empresa = new Empresa("20440578921", "JB ENTERPRISE GROUP");
+		//empresa.setRazonSocial("JB ENTERPRISE GROUP");
+		empresa.setRazonSocialComercial("JB GROUP");
+		empresa.setDireccion("San Isidro");
+		empresa.setCelular("123456789");
+		
 		Set<ConstraintViolation<Empresa>> constraintViolations = validator.validate(empresa);
 		assertThat(constraintViolations.size(), is(0));
 	}
